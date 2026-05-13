@@ -61,7 +61,6 @@ async function buildPaso2(paso1DataUrl: string): Promise<string> {
 export function LlamaWalker() {
   const [sprites, setSprites] = useState<Partial<Record<Sprite, string>>>({});
   const [visible, setVisible] = useState(false);
-  const [fading, setFading] = useState(false);
   const [leftPos, setLeftPos] = useState(-LLAMA_H);
   const [transitMs, setTransitMs] = useState(0);
   const [sprite, setSprite] = useState<Sprite>("paso1");
@@ -101,20 +100,17 @@ export function LlamaWalker() {
       setSprite("paso1");
       setWalkFrame(0);
       setWalking(false);
-      setFading(false);
       setVisible(true);
 
       t(60,   () => { setTransitMs(2600); setLeftPos(80); setWalking(true); });
       t(2700, () => { setWalking(false); setSprite("mirando"); });
       t(3600, () => setSprite("frente"));
       t(4900, () => setSprite("mirando"));
-      // Resume walking toward right edge
-      t(5600, () => { setSprite("paso1"); setWalking(true); setTransitMs(1600); setLeftPos(200); });
-      // Fade out while still walking
-      t(7300, () => { setFading(true); setWalking(false); });
-      // Hide completely
-      t(7900, () => { setVisible(false); setFading(false); });
-      t(13000, cycle);
+      // Resume walking — exits off the right edge (widget is 260px wide)
+      t(5600, () => { setSprite("paso1"); setWalking(true); setTransitMs(3600); setLeftPos(270); });
+      // Hidden once fully off screen — no fade
+      t(9300, () => { setVisible(false); setWalking(false); });
+      t(14000, cycle);
     }
 
     timers.push(setTimeout(cycle, 1500));
@@ -133,8 +129,8 @@ export function LlamaWalker() {
         position: "absolute",
         bottom: 2,
         left: leftPos,
-        transition: `left ${transitMs}ms linear, opacity 600ms ease`,
-        opacity: !visible || fading ? 0 : 1,
+        transition: `left ${transitMs}ms linear`,
+        opacity: visible ? 1 : 0,
         pointerEvents: "none",
         zIndex: 5,
       }}

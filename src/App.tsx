@@ -94,83 +94,85 @@ export default function App() {
   }
 
   return (
-    <div
-      className="w-full h-full relative flex flex-col rounded-xl overflow-hidden"
-      style={{ backgroundColor: "rgba(13,13,13,0.93)", border: "1px solid #1f1f1f" }}
-    >
-      {showSettings && (
-        <SettingsPanel onClose={() => { setShowSettings(false); refresh(); }} />
-      )}
-
+    <div className="w-full h-full relative">
       <div
-        data-tauri-drag-region
-        className="flex items-center justify-between px-3 pt-2.5 pb-1.5 cursor-move"
-        onMouseDown={(e) => {
-          const t = e.target as HTMLElement;
-          if (e.button === 0 && !t.closest("button, a, input")) handleDrag();
-        }}
+        className="w-full h-full flex flex-col rounded-xl overflow-hidden"
+        style={{ backgroundColor: "rgba(13,13,13,0.93)", border: "1px solid #1f1f1f" }}
       >
-        <div className="flex items-center gap-1.5 pointer-events-none">
-          <img src={claudeLogo} alt="Claude" style={{ width: 18, height: 18, imageRendering: "pixelated" }} />
-          <span className="text-white text-sm font-semibold tracking-wide">Claude - Usage</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleCompact}
-            className="text-gray-700 hover:text-gray-400 transition-colors"
-            style={{ fontSize: 12, lineHeight: 1 }}
-            title="Compact mode"
-          >
-            ⊟
-          </button>
-          <button
-            onClick={() => setShowSettings(true)}
-            className="text-gray-700 hover:text-gray-400 transition-colors"
-            style={{ fontSize: 14, lineHeight: 1 }}
-            title="Settings"
-          >
-            ⚙
-          </button>
-          <button
-            onClick={() => getCurrentWindow().close()}
-            className="text-gray-700 hover:text-red-500 transition-colors"
-            style={{ fontSize: 16, lineHeight: 1 }}
-            title="Close"
-          >
-            ×
-          </button>
-        </div>
-      </div>
-
-      <div className="mx-3 mb-2" style={{ height: 1, backgroundColor: "#1a1a1a" }} />
-
-      <div className="flex-1 px-3 pb-1">
-        {stats ? (
-          <>
-            <UsageBar
-              percent={stats.current.percent}
-              label="Current"
-              tokensUsed={stats.current.tokens_used}
-              maxTokens={stats.current.max_tokens}
-              resetInSecs={stats.current.reset_in_secs}
-            />
-            <UsageBar
-              percent={stats.weekly.percent}
-              label="Weekly"
-              tokensUsed={stats.weekly.tokens_used}
-              maxTokens={stats.weekly.max_tokens}
-              resetInSecs={stats.weekly.reset_in_secs}
-            />
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-16">
-            <span className="text-xs blink" style={{ color: "#f97316" }}>* Loading...</span>
-          </div>
+        {showSettings && (
+          <SettingsPanel onClose={() => { setShowSettings(false); refresh(); }} />
         )}
-      </div>
 
-      <div className="px-3 pb-2">
-        <StatusLine loading={loading} error={error} />
+        <div
+          data-tauri-drag-region
+          className="flex items-center justify-between px-3 pt-2.5 pb-1.5 cursor-move"
+          onMouseDown={(e) => {
+            const t = e.target as HTMLElement;
+            if (e.button === 0 && !t.closest("button, a, input")) handleDrag();
+          }}
+        >
+          <div className="flex items-center gap-1.5 pointer-events-none">
+            <img src={claudeLogo} alt="Claude" style={{ width: 18, height: 18, imageRendering: "pixelated" }} />
+            <span className="text-white text-sm font-semibold tracking-wide">Claude - Usage</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleCompact}
+              className="text-gray-700 hover:text-gray-400 transition-colors"
+              style={{ fontSize: 12, lineHeight: 1 }}
+              title="Compact mode"
+            >
+              ⊟
+            </button>
+            <button
+              onClick={() => setShowSettings(true)}
+              className="text-gray-700 hover:text-gray-400 transition-colors"
+              style={{ fontSize: 14, lineHeight: 1 }}
+              title="Settings"
+            >
+              ⚙
+            </button>
+            <button
+              onClick={() => getCurrentWindow().close()}
+              className="text-gray-700 hover:text-red-500 transition-colors"
+              style={{ fontSize: 16, lineHeight: 1 }}
+              title="Close"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+
+        <div className="mx-3 mb-2" style={{ height: 1, backgroundColor: "#1a1a1a" }} />
+
+        <div className="flex-1 px-3 pb-1">
+          {stats ? (
+            <>
+              <UsageBar
+                percent={stats.current.percent}
+                label="Current"
+                tokensUsed={stats.current.tokens_used}
+                maxTokens={stats.current.max_tokens}
+                resetInSecs={stats.current.reset_in_secs}
+              />
+              <UsageBar
+                percent={stats.weekly.percent}
+                label="Weekly"
+                tokensUsed={stats.weekly.tokens_used}
+                maxTokens={stats.weekly.max_tokens}
+                resetInSecs={stats.weekly.reset_in_secs}
+              />
+            </>
+          ) : (
+            <div className="flex items-center justify-center h-16">
+              <span className="text-xs blink" style={{ color: "#f97316" }}>* Loading...</span>
+            </div>
+          )}
+        </div>
+
+        <div className="px-3 pb-2">
+          <StatusLine loading={loading} error={error} />
+        </div>
       </div>
 
       <LlamaWalker />
