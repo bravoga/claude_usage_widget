@@ -29,8 +29,8 @@ export function StatusLine({ loading, error }: StatusLineProps) {
       {left}
       <button
         onClick={openSaltaDev}
-        style={{ color: "#2d2d2d", fontSize: 9, lineHeight: 1 }}
-        className="hover:text-gray-500 transition-colors"
+        style={{ color: "#e5e7eb", fontSize: 10, lineHeight: 1, fontWeight: 500 }}
+        className="hover:brightness-125 transition-all"
         title="SaltaDev — Comunidad de tecnología en Salta"
       >
         salta.dev
