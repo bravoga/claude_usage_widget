@@ -17,8 +17,7 @@ A lightweight, always-on-top floating widget for Windows that shows your **Claud
 - **Transparent + frameless** — blends into any desktop setup
 - **Draggable** — click and drag anywhere on the header to reposition
 - **Compact mode** — collapse to a minimal 42 px pill showing both bars at a glance
-- **System tray** — minimize to tray, show/hide, open settings
-- **Configurable limits** — set your own max tokens per period in the settings panel
+- **System tray** — minimize to tray, show/hide
 - **Pixel art llama** — because why not
 
 ---
@@ -67,7 +66,7 @@ bun run tauri dev
 
 1. **OAuth API** (primary) — on startup the widget reads your Claude Code OAuth access token from `~/.claude/.credentials.json` and calls `https://api.anthropic.com/api/oauth/usage` with the `anthropic-beta: oauth-2025-04-20` header. The response contains `five_hour.utilization` and `seven_day.utilization` — integer percentages straight from Anthropic. Results are cached for 5 minutes to respect rate limits.
 
-2. **JSONL fallback** — if the API call fails, the widget scans all `.jsonl` files under `~/.claude/projects/`, sums `input_tokens + output_tokens` for each message within the relevant time window, and calculates a percentage against your configured limits.
+2. **JSONL fallback** — if the API call fails, the widget scans all `.jsonl` files under `~/.claude/projects/`, sums `input_tokens + output_tokens` for each message within the relevant time window, and calculates a percentage against internal default limits.
 
 No data leaves your machine except for the single usage API call to Anthropic.
 
@@ -75,14 +74,7 @@ No data leaves your machine except for the single usage API call to Anthropic.
 
 ## Configuration
 
-Click the ⚙ icon (or right-click the tray icon → Settings) to configure:
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| Max tokens (5h) | 2,200,000 | Your plan's 5-hour rolling window limit |
-| Max tokens (weekly) | 16,000,000 | Your plan's 7-day limit |
-
-These limits are only used by the JSONL fallback. The OAuth API provides its own authoritative percentages independently of these values.
+No manual configuration required. Percentages are sourced directly from Anthropic's OAuth API and reflect your actual plan limits. The JSONL fallback uses sensible internal defaults (2.2M / 16M tokens) when the API is unavailable.
 
 ---
 

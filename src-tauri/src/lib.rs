@@ -39,12 +39,10 @@ pub fn run() {
         ])
         .setup(|app| {
             let show_hide = MenuItemBuilder::with_id("show_hide", "Show / Hide").build(app)?;
-            let settings = MenuItemBuilder::with_id("settings", "Settings").build(app)?;
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
 
             let menu = MenuBuilder::new(app)
                 .item(&show_hide)
-                .item(&settings)
                 .separator()
                 .item(&quit)
                 .build()?;
@@ -65,11 +63,6 @@ pub fn run() {
                                 let _ = w.show();
                                 let _ = w.set_focus();
                             }
-                        }
-                    }
-                    "settings" => {
-                        if let Some(w) = app.get_webview_window("main") {
-                            let _ = w.emit("open-settings", ());
                         }
                     }
                     _ => {}

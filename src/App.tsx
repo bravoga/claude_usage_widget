@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { listen } from "@tauri-apps/api/event";
+import { useState } from "react";
 import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 import claudeLogo from "../src-tauri/icons/claude.png";
 import { useUsage } from "./hooks/useUsage";
 import { UsageBar } from "./components/UsageBar";
 import { StatusLine } from "./components/StatusLine";
-import { SettingsPanel } from "./components/SettingsPanel";
 import { LlamaWalker } from "./components/LlamaWalker";
 
 const FULL_H = 230;
@@ -26,14 +24,9 @@ function MiniBar({ percent, label }: { percent: number; label: string }) {
 
 
 export default function App() {
-  const { stats, loading, error, refresh } = useUsage();
-  const [showSettings, setShowSettings] = useState(false);
+  const { stats, loading, error } = useUsage();
   const [compact, setCompact] = useState(false);
 
-  useEffect(() => {
-    const unlisten = listen("open-settings", () => setShowSettings(true));
-    return () => { unlisten.then((fn) => fn()); };
-  }, []);
 
   const handleDrag = () => getCurrentWindow().startDragging().catch(() => {});
 
@@ -99,10 +92,6 @@ export default function App() {
         className="w-full h-full flex flex-col rounded-xl overflow-hidden"
         style={{ backgroundColor: "rgba(13,13,13,0.93)", border: "1px solid #1f1f1f" }}
       >
-        {showSettings && (
-          <SettingsPanel onClose={() => { setShowSettings(false); refresh(); }} />
-        )}
-
         <div
           data-tauri-drag-region
           className="flex items-center justify-between px-3 pt-2.5 pb-1.5 cursor-move"
@@ -125,14 +114,6 @@ export default function App() {
               ⊟
             </button>
             <button
-              onClick={() => setShowSettings(true)}
-              className="text-gray-700 hover:text-gray-400 transition-colors"
-              style={{ fontSize: 14, lineHeight: 1 }}
-              title="Settings"
-            >
-              ⚙
-            </button>
-            <button
               onClick={() => getCurrentWindow().close()}
               className="text-gray-700 hover:text-red-500 transition-colors"
               style={{ fontSize: 16, lineHeight: 1 }}
@@ -151,15 +132,11 @@ export default function App() {
               <UsageBar
                 percent={stats.current.percent}
                 label="Current"
-                tokensUsed={stats.current.tokens_used}
-                maxTokens={stats.current.max_tokens}
                 resetInSecs={stats.current.reset_in_secs}
               />
               <UsageBar
                 percent={stats.weekly.percent}
                 label="Weekly"
-                tokensUsed={stats.weekly.tokens_used}
-                maxTokens={stats.weekly.max_tokens}
                 resetInSecs={stats.weekly.reset_in_secs}
               />
             </>

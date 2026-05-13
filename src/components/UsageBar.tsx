@@ -3,8 +3,6 @@ import { useCountdown, formatCountdown } from "../hooks/useCountdown";
 interface UsageBarProps {
   percent: number;
   label: "Current" | "Weekly";
-  tokensUsed: number;
-  maxTokens: number;
   resetInSecs: number | null;
 }
 
@@ -14,13 +12,7 @@ function barColor(pct: number): string {
   return "#22c55e";
 }
 
-function fmt(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
-  return String(n);
-}
-
-export function UsageBar({ percent, label, tokensUsed, maxTokens, resetInSecs }: UsageBarProps) {
+export function UsageBar({ percent, label, resetInSecs }: UsageBarProps) {
   const countdown = useCountdown(resetInSecs);
   const pct = Math.min(Math.round(percent), 100);
   const color = barColor(pct);
@@ -44,12 +36,9 @@ export function UsageBar({ percent, label, tokensUsed, maxTokens, resetInSecs }:
         />
       </div>
 
-      <div className="flex justify-between mt-1">
+      <div className="mt-1">
         <span className="text-xs" style={{ color: "#4b5563" }}>
           Resets in {formatCountdown(countdown)}
-        </span>
-        <span className="text-xs" style={{ color: "#374151" }}>
-          {fmt(tokensUsed)}/{fmt(maxTokens)}
         </span>
       </div>
     </div>
