@@ -4,6 +4,8 @@ A lightweight, always-on-top floating widget for Windows that shows your **Claud
 
 > Built with Tauri 2 + React + TypeScript. Reads authoritative utilization data directly from Claude Code's OAuth API, with a local JSONL fallback.
 
+![Claude Usage Widget](docs/screenshot.png)
+
 ---
 
 ## Features
