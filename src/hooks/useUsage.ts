@@ -44,7 +44,7 @@ function extractOAuthPercents(
     const val = v?.utilization ?? v?.percent ?? v?.percent_used ?? v?.percentUsed;
     const n = typeof val === "number" ? val : parseFloat(val);
     if (isNaN(n)) return null;
-    return n > 0 && n <= 1 ? n * 100 : n;
+    return n > 0 && n < 1 ? n * 100 : n;
   };
 
   const toResetSecs = (v: any): number | undefined => {
