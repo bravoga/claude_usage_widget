@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.blink {
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes llama-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
