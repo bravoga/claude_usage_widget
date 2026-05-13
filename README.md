@@ -2,8 +2,6 @@
 
 A lightweight, always-on-top floating widget for Windows that shows your **Claude Code token usage** in real time — 5-hour rolling window and 7-day weekly period.
 
-![Claude Usage Widget](docs/screenshot.png)
-
 > Built with Tauri 2 + React + TypeScript. Reads authoritative utilization data directly from Claude Code's OAuth API, with a local JSONL fallback.
 
 ---
@@ -23,11 +21,7 @@ A lightweight, always-on-top floating widget for Windows that shows your **Claud
 
 ---
 
-## Screenshots
-
-| Full view | Compact mode |
-|-----------|-------------|
-| *(add screenshot)* | *(add screenshot)* |
+The widget comes in two modes: a **full view** (230px) showing detailed usage bars with token counts and reset timers, and a **compact mode** (42px pill) that collapses to two minimal progress bars — perfect for keeping an eye on usage without taking up screen space.
 
 ---
 
