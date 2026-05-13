@@ -5,6 +5,7 @@ import { useUsage } from "./hooks/useUsage";
 import { UsageBar } from "./components/UsageBar";
 import { StatusLine } from "./components/StatusLine";
 import { LlamaWalker } from "./components/LlamaWalker";
+import { AboutPanel } from "./components/AboutPanel";
 
 const FULL_H = 230;
 const COMPACT_H = 42;
@@ -26,6 +27,7 @@ function MiniBar({ percent, label }: { percent: number; label: string }) {
 export default function App() {
   const { stats, loading, error } = useUsage();
   const [compact, setCompact] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
 
   const handleDrag = () => getCurrentWindow().startDragging().catch(() => {});
@@ -92,6 +94,8 @@ export default function App() {
         className="w-full h-full flex flex-col rounded-xl overflow-hidden"
         style={{ backgroundColor: "rgba(13,13,13,0.93)", border: "1px solid #1f1f1f" }}
       >
+        {showAbout && <AboutPanel onClose={() => setShowAbout(false)} />}
+
         <div
           data-tauri-drag-region
           className="flex items-center justify-between px-3 pt-2.5 pb-1.5 cursor-move"
@@ -112,6 +116,14 @@ export default function App() {
               title="Compact mode"
             >
               ⊟
+            </button>
+            <button
+              onClick={() => setShowAbout(true)}
+              className="text-gray-700 hover:text-gray-400 transition-colors"
+              style={{ fontSize: 12, lineHeight: 1 }}
+              title="About"
+            >
+              ?
             </button>
             <button
               onClick={() => getCurrentWindow().close()}
