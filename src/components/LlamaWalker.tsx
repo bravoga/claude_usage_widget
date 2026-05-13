@@ -95,6 +95,7 @@ export function LlamaWalker() {
     }
 
     function cycle() {
+      window.dispatchEvent(new CustomEvent("llama-cycle"));
       setTransitMs(0);
       setLeftPos(-LLAMA_H - 5);
       setSprite("paso1");

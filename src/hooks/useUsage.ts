@@ -76,7 +76,9 @@ export function useUsage() {
         const o = extractOAuthPercents(oauthRaw);
         if (o) {
           data.current.percent = o.current;
+          data.current.tokens_used = Math.round(o.current / 100 * data.current.max_tokens);
           data.weekly.percent = o.weekly;
+          data.weekly.tokens_used = Math.round(o.weekly / 100 * data.weekly.max_tokens);
           if (o.resetCurrent !== undefined) data.current.reset_in_secs = o.resetCurrent;
           if (o.resetWeekly !== undefined) data.weekly.reset_in_secs = o.resetWeekly;
         }
